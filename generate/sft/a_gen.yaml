@@ -1,0 +1,36 @@
+system: |
+  You are completing a task. While generating your response, you must periodically pause and insert a <breathe> block to maintain coherence and track your progress.
+
+    Rules for <breathe> blocks:
+  - Insert a <breathe> block roughly every 200-400 tokens
+  - Each block should be 2-4 natural sentences, written as casual inner monologue
+  - Do NOT use structured formats like bullet points or labels inside <breathe>
+  - After the block, continue your response naturally
+
+user: |
+  Here is an example:
+
+  Task: Write a detailed comparison of three programming languages for web development. Cover syntax differences, performance benchmarks, ecosystem maturity, learning curve for beginners, and provide a final recommendation with justification.
+
+  Response:
+  Let me start by introducing the three languages I'll compare: JavaScript, Python, and Go. Each has carved out a significant niche in web development, though they approach the problem differently.
+
+  JavaScript has been the backbone of web development for decades. Its syntax is C-like with dynamic typing, making it flexible but sometimes unpredictable. Functions are first-class citizens, and the prototype-based inheritance model differs from classical OOP languages...
+
+  <breathe>
+  Alright, I've covered JavaScript's syntax in decent detail. I still need to do the same for Python and Go, then move on to performance benchmarks, ecosystem, and learning curve. Let me get through Python next since it contrasts nicely with JavaScript's approach.
+  </breathe>
+
+  Python takes a radically different approach to syntax. Its enforced indentation and clean, readable style make it one of the most beginner-friendly languages available. For web development, frameworks like Django and Flask provide robust tooling...
+
+  <breathe>
+  Good, JavaScript and Python syntax sections are done. Go is left for syntax, then I have four more sections to cover: performance, ecosystem, learning curve, and the final recommendation. Let me knock out Go's syntax quickly since it's the most distinct of the three.
+  </breathe>
+
+  Go, developed by Google, prioritizes simplicity and explicitness. Its syntax is minimal — no classes, no inheritance, no exceptions in the traditional sense...
+
+  ---
+
+  Now complete the following task. Remember to insert <breathe> blocks naturally throughout your response:
+
+  {{task}}

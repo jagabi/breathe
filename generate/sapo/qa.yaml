@@ -1,0 +1,126 @@
+system: |
+  You are a dataset generator for AI alignment research. You create question-checklist pairs for evaluating whether language models can follow sequential instructions without losing track mid-response.
+
+user: |
+  # SAPO QA Pair Generator
+
+  Below are 5 reference categories with example QA pairs. Each pair has a natural paragraph prompt (no numbered steps, no few-shot examples) and a sequential rule-based checklist for verifying the response.
+
+  ## Category 1: Multi-step Math
+  ```json
+  {
+    "category": "math",
+    "prompt": "A factory produces widgets in three stages. In Stage 1, the factory produces 120 widgets per hour. In Stage 2, a quality check rejects 15% of the widgets from Stage 1. In Stage 3, each surviving widget is packaged in boxes of 6. Calculate the number of widgets that pass the quality check per hour, then how many full boxes are produced per hour, then the total full boxes in an 8-hour shift, then the total revenue if each box sells for $12.50, and finally the net profit if operating costs are $1,200. Show each intermediate answer clearly labeled as Step N Answer followed by the number.",
+    "checklist": {
+      "1": {"description": "Widgets passing quality check per hour = 102", "pattern": "102"},
+      "2": {"description": "Full boxes per hour = 17", "pattern": "17"},
+      "3": {"description": "Total boxes in 8-hour shift = 136", "pattern": "136"},
+      "4": {"description": "Total revenue = 1700", "pattern": "1700"},
+      "5": {"description": "Net profit = 500", "pattern": "500"}
+    }
+  }
+  ```
+
+  ## Category 2: Sequential Document
+  ```json
+  {
+    "category": "document",
+    "prompt": "Write a technical report on the impact of remote work on software development productivity. The report must include an abstract, introduction, methodology section, a findings section with exactly 3 numbered findings, a discussion section, a conclusion, and a references section with at least 4 numbered references. Use markdown headings for each section and present them in the order listed above.",
+    "checklist": {
+      "1": {"description": "Abstract section exists", "pattern": "Abstract"},
+      "2": {"description": "Introduction section exists after Abstract", "pattern": "Introduction"},
+      "3": {"description": "Methodology section exists after Introduction", "pattern": "Methodology"},
+      "4": {"description": "Findings section exists after Methodology", "pattern": "Findings"},
+      "5": {"description": "At least 3 numbered findings in Findings section", "pattern": "3_numbered_in_findings"},
+      "6": {"description": "Discussion section exists after Findings", "pattern": "Discussion"},
+      "7": {"description": "Conclusion section exists after Discussion", "pattern": "Conclusion"},
+      "8": {"description": "References section exists after Conclusion", "pattern": "References"},
+      "9": {"description": "At least 4 numbered references", "pattern": "4_numbered_in_references"},
+      "10": {"description": "All sections in correct order", "pattern": "order_check"}
+    }
+  }
+  ```
+
+  ## Category 3: Sequential Code Generation
+  ```json
+  {
+    "category": "code",
+    "prompt": "Write a Python library for managing a simple bank account system. Define a class called BankAccount with an initializer accepting owner_name and initial_balance, then add a deposit method that increases the balance, a withdraw method that raises ValueError for insufficient funds, and a transfer method that moves money between two accounts. Include input validation that raises TypeError for non-numeric amounts and ValueError for negative amounts. Add docstrings for the class and every method, and write at least 3 test functions using assert statements covering deposit, withdraw, and transfer functionality. Present everything in a single code block.",
+    "checklist": {
+      "1": {"description": "class BankAccount defined", "pattern": "class BankAccount"},
+      "2": {"description": "__init__ method with owner_name and initial_balance", "pattern": "__init__"},
+      "3": {"description": "deposit method exists", "pattern": "def deposit"},
+      "4": {"description": "withdraw method exists", "pattern": "def withdraw"},
+      "5": {"description": "transfer method exists", "pattern": "def transfer"},
+      "6": {"description": "raises ValueError", "pattern": "raise ValueError"},
+      "7": {"description": "raises TypeError", "pattern": "raise TypeError"},
+      "8": {"description": "at least 4 docstrings", "pattern": "4_docstrings"},
+      "9": {"description": "at least 3 test functions", "pattern": "3_test_functions"},
+      "10": {"description": "at least 3 assert statements", "pattern": "3_asserts"}
+    }
+  }
+  ```
+
+  ## Category 4: Data Processing Pipeline
+  ```json
+  {
+    "category": "pipeline",
+    "prompt": "You have a dataset of employee records in a CSV file called employees.csv with columns for name, age, department, salary, and join_date, where some values are missing. Write a complete Python data processing pipeline that loads the CSV using pandas, handles missing values by filling missing ages with the median and missing salaries with department averages while dropping rows with missing names, adds a new column called experience_years calculated from the join date, generates summary statistics showing mean salary and employee count by department, creates a bar chart of average salary by department using matplotlib saved as salary_chart.png, and finally prints a text summary of key insights to the console. Mark each section with a comment like Step N so the pipeline is clearly organized.",
+    "checklist": {
+      "1": {"description": "imports pandas", "pattern": "import pandas"},
+      "2": {"description": "reads employees.csv", "pattern": "read_csv"},
+      "3": {"description": "handles missing values with fillna or median or dropna", "pattern": "fillna|median|dropna"},
+      "4": {"description": "drops rows with missing names", "pattern": "drop"},
+      "5": {"description": "creates experience_years column", "pattern": "experience_years"},
+      "6": {"description": "groups by department", "pattern": "groupby"},
+      "7": {"description": "imports matplotlib", "pattern": "import matplotlib|from matplotlib|pyplot"},
+      "8": {"description": "saves chart as salary_chart.png", "pattern": "savefig"},
+      "9": {"description": "prints summary to console", "pattern": "print"},
+      "10": {"description": "steps appear in sequential order", "pattern": "order_check"}
+    }
+  }
+  ```
+
+  ## Category 5: Travel Itinerary
+  ```json
+  {
+    "category": "travel",
+    "prompt": "Create a detailed 3-day travel itinerary for Tokyo, Japan for 2 travelers with a total budget of $2,000 for December 1-3, 2024. Start with a trip overview section covering the destination, dates, number of travelers, and budget. Then plan each day with exactly 3 activities including specific time slots and estimated costs in USD. After the daily plans, include a budget breakdown table covering accommodation, food, transportation, activities, and miscellaneous expenses that stays within the $2,000 limit. Add a packing list with at least 8 items, and finish with an emergency information section including the local police number 110 and fire or ambulance number 119. Use markdown headings for each section.",
+    "checklist": {
+      "1": {"description": "overview section mentions Tokyo", "pattern": "Tokyo"},
+      "2": {"description": "overview mentions budget $2,000", "pattern": "2000|2,000"},
+      "3": {"description": "Day 1 section with at least 3 time slots", "pattern": "3_times_in_day1"},
+      "4": {"description": "Day 2 section with at least 3 time slots", "pattern": "3_times_in_day2"},
+      "5": {"description": "Day 3 section with at least 3 time slots", "pattern": "3_times_in_day3"},
+      "6": {"description": "days appear in order 1, 2, 3", "pattern": "day_order_check"},
+      "7": {"description": "budget breakdown includes all 5 categories", "pattern": "5_budget_categories"},
+      "8": {"description": "budget total does not exceed $2,000", "pattern": "budget_sum_lte_2000"},
+      "9": {"description": "packing list with at least 8 items", "pattern": "8_packing_items"},
+      "10": {"description": "emergency section includes 110 and 119", "pattern": "110_and_119"}
+    }
+  }
+  ```
+
+  ---
+
+  Now generate exactly {{count}} new and diverse QA pairs for the category: **{{category}}**
+
+  Rules:
+  - Prompts must be natural paragraphs without numbered steps or few-shot examples
+  - Checklist keys must be sequential integers starting from "1"
+  - Simple patterns should be regex-matchable strings (e.g., "102", "import pandas")
+  - Complex structural patterns should use descriptive function names (e.g., "order_check", "3_numbered_in_findings")
+  - Vary the number of checklist items across QA pairs (e.g., some with 4-5, some with 7-8, some with 10+)
+  - Each QA pair must be unique and diverse in topic within the category
+  - Do NOT repeat or rephrase any of the previously generated prompts listed below
+  - Match the complexity, length, and checklist depth of the reference examples above
+
+  {{history}}
+
+  Output format — a JSON array of objects, each with "prompt" and "checklist" only:
+  [
+    {"prompt": "...", "checklist": {"1": {"description": "...", "pattern": "..."}, ...}},
+    ...
+  ]
+
+  **Output ONLY the raw JSON array. No markdown fences, no commentary, no extra text.**

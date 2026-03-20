@@ -1,0 +1,31 @@
+system: |
+  You are a dataset generator for AI research.
+
+user: |
+  Generate 20 complex tasks in the domain of {{DOMAIN}}.
+
+  Requirements for each task:
+  - The task must require a long, detailed response (at least 3000 tokens)
+  - Each task must contain 5 or more explicit requirements that the responder must satisfy
+  - Requirements should be specific and verifiable (e.g., "include exactly 3 examples", "address both pros and cons", "use formal tone throughout")
+  - Tasks should be diverse in topic within the domain
+  - Tasks should be challenging enough that missing a requirement mid-response is plausible
+
+  Format each task as:
+  ---
+  Task [number]:
+  [task description with all requirements clearly stated]
+  ---
+
+  Here are examples of good tasks:
+
+  {{few-shot}}
+
+  ---
+  {{history}}
+  
+  Here is the history of your previous generations about this domain.
+  continue the generating tasks without repeating the same tasks. (Task number should be continuous)
+  **Note: Do not generate any other additional text or comments. just generate the tasks. 20 tasks should be generated.**
+
+  
